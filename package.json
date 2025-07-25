@@ -1,0 +1,16 @@
+{
+  "name": "pinger-app",
+  "version": "1.0.0",
+  "description": "1-second pinger like cron-job.org with fake frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.4.0"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
