@@ -1,21 +1,16 @@
-import express from 'express';
-import fetch from 'node-fetch';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const express = require('express');
+const fetch = require('node-fetch');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Serve frontend
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Target to ping
 const TARGET_URL = "https://codesandbox.io/p/devbox/pufferpanel-v5-forked-jwmsv7";
 
-// Pinger logic (every 1 second)
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// 1-second ping loop
 setInterval(async () => {
   try {
     const res = await fetch(TARGET_URL, {
@@ -24,13 +19,13 @@ setInterval(async () => {
         'User-Agent': 'RenderPingerBot/1.0'
       }
     });
-    console.log(`[${new Date().toISOString()}] Pinged ${TARGET_URL} - ${res.status}`);
-  } catch (error) {
-    console.error("Ping failed:", error.message);
+    console.log(`[${new Date().toISOString()}] Pinged: ${res.status}`);
+  } catch (err) {
+    console.error("Ping failed:", err.message);
   }
 }, 1000);
 
 // Start server
 app.listen(port, () => {
-  console.log(`Pinger running on http://localhost:${port}`);
+  console.log(`Server started on http://localhost:${port}`);
 });
